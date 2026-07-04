@@ -1,0 +1,432 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800;900&display=swap');
+
+:root {
+  --bg-dark: #081C3A;
+  --bg-card: rgba(255, 255, 255, 0.04);
+  --primary-accent: #FFD54A;
+  --secondary-accent: #38BDF8;
+  --text-main: #FFFFFF;
+  --text-muted: #C5D2E5;
+  --border-light: rgba(255, 255, 255, 0.08);
+  --border-glow: rgba(56, 189, 248, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-dark);
+  font-family: 'Inter', sans-serif;
+  color: var(--text-main);
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-accent);
+}
+
+/* Base Animations & Gradients */
+.bg-mesh {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  background-color: var(--bg-dark);
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(255, 213, 74, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(8, 28, 58, 1) 0%, var(--bg-dark) 100%);
+  background-size: 200% 200%;
+  animation: mesh-move 20s ease infinite;
+}
+
+@keyframes mesh-move {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Futuristic Grid Overlay */
+.grid-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 50px 50px;
+  mask-image: radial-gradient(ellipse 60% 50% at 50% 50%, #000 70%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 60% 50% at 50% 50%, #000 70%, transparent 100%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Glassmorphism Classes */
+.glass-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(56, 189, 248, 0.25);
+  box-shadow: 
+    0 10px 30px -10px rgba(8, 28, 58, 0.5),
+    0 0 20px 0px rgba(56, 189, 248, 0.15);
+}
+
+/* Gradient Borders for Tracks Section */
+.track-card {
+  position: relative;
+  background: rgba(8, 28, 58, 0.6);
+  border-radius: 20px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.track-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 20px;
+  padding: 1.5px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: background 0.4s ease;
+}
+
+.track-card:hover::before {
+  background: linear-gradient(135deg, var(--secondary-accent), var(--primary-accent));
+}
+
+.track-card-glow {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.track-card:hover .track-card-glow {
+  opacity: 1;
+}
+
+/* Loading Preloader */
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-dark);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s ease, visibility 0.6s;
+  /* Auto-hide via pure CSS after 1.5s — no JS required */
+  animation: preloader-auto-hide 0.6s ease forwards 1.5s;
+}
+
+@keyframes preloader-auto-hide {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+.preloader.fade-out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.preload-logo {
+  font-size: 3rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  background: linear-gradient(135deg, var(--text-main) 30%, var(--primary-accent) 60%, var(--secondary-accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: logo-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes logo-glow {
+  0% {
+    filter: drop-shadow(0 0 5px rgba(255, 213, 74, 0.3));
+  }
+  100% {
+    filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.6));
+  }
+}
+
+.preloader-bar {
+  width: 200px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  margin-top: 20px;
+  overflow: hidden;
+  position: relative;
+}
+
+.preloader-progress {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-accent), var(--secondary-accent));
+  border-radius: 10px;
+  animation: load 2.2s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes load {
+  0% { width: 0%; }
+  30% { width: 40%; }
+  60% { width: 75%; }
+  100% { width: 100%; }
+}
+
+/* Glowing typography & Buttons */
+.text-glow-yellow {
+  text-shadow: 0 0 20px rgba(255, 213, 74, 0.4);
+}
+
+.text-glow-cyan {
+  text-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+}
+
+.glow-btn-yellow {
+  background: var(--primary-accent);
+  color: #000000;
+  box-shadow: 0 4px 15px rgba(255, 213, 74, 0.3);
+  transition: all 0.3s ease;
+}
+
+.glow-btn-yellow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(255, 213, 74, 0.6);
+}
+
+.glow-btn-cyan {
+  background: transparent;
+  color: var(--secondary-accent);
+  border: 1px solid var(--secondary-accent);
+  box-shadow: 0 4px 15px rgba(56, 189, 248, 0.1);
+  transition: all 0.3s ease;
+}
+
+.glow-btn-cyan:hover {
+  transform: translateY(-2px);
+  background: rgba(56, 189, 248, 0.06);
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
+}
+
+/* Letter reveal animations */
+.char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: char-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes char-reveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scroll reveal classes */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.reveal-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Navigation scroll styles */
+nav.scrolled {
+  background: rgba(8, 28, 58, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+/* Accordion FAQs styles */
+.faq-header {
+  cursor: pointer;
+}
+.faq-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  opacity: 0;
+}
+.faq-item.open .faq-content {
+  max-height: 500px;
+  opacity: 1;
+}
+.faq-item.open .faq-icon {
+  transform: rotate(45deg);
+  color: var(--primary-accent);
+}
+
+/* Timeline animations */
+.timeline-item {
+  position: relative;
+}
+
+.timeline-dot {
+  background: var(--bg-dark);
+  border: 3px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.4s ease;
+}
+
+.timeline-item:hover .timeline-dot {
+  border-color: var(--secondary-accent);
+  box-shadow: 0 0 15px var(--secondary-accent);
+  transform: scale(1.2);
+}
+
+/* Circular Progress Indicator for Evaluation Section */
+.circle-progress-svg {
+  transform: rotate(-90deg);
+}
+
+.circle-progress-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.04);
+}
+
+.circle-progress-bar {
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: 283; /* 2 * PI * r (r=45) */
+  stroke-dashoffset: 283;
+  transition: stroke-dashoffset 1.5s cubic-bezier(0.1, 0.8, 0.2, 1);
+}
+
+/* Custom Floating Animation for highlight icons */
+.floating-icon {
+  animation: bounce-slow 4s ease-in-out infinite;
+}
+
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Pulse animation for timer labels */
+.pulse-light {
+  animation: pulse-op 2s ease-in-out infinite;
+}
+
+@keyframes pulse-op {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* Neural net canvas placement */
+#neural-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.65;
+}
+/* ================= PREMIUM TIMELINE ================= */
+
+#timeline .glass-card{
+    transition:all .4s ease;
+    backdrop-filter:blur(18px);
+}
+
+#timeline .glass-card:hover{
+    transform:translateY(-8px) scale(1.03);
+    border-color:#38BDF8;
+    box-shadow:
+        0 0 30px rgba(56,189,248,.30),
+        0 0 60px rgba(255,213,74,.15);
+}
+
+#timeline a{
+    transition:.3s;
+}
+
+#timeline a:hover{
+    transform:translateY(-3px);
+    box-shadow:0 0 20px #FFD54A;
+}
+
+#timeline .absolute.w-7,
+#timeline .absolute.w-8{
+    animation:timelinePulse 2s infinite;
+}
+
+@keyframes timelinePulse{
+
+0%{
+transform:translateX(-50%) scale(1);
+box-shadow:0 0 5px rgba(56,189,248,.4);
+}
+
+50%{
+transform:translateX(-50%) scale(1.2);
+box-shadow:0 0 25px rgba(56,189,248,.9);
+}
+
+100%{
+transform:translateX(-50%) scale(1);
+box-shadow:0 0 5px rgba(56,189,248,.4);
+}
+
+}
